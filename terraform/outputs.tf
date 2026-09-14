@@ -22,3 +22,8 @@ output "https_port" {
   description = "Host port mapped to the Traefik loadbalancer's port 443"
   value       = var.https_port
 }
+
+output "api_port" {
+  description = "Host port for the Kubernetes API server"
+  value       = var.api_port
+}

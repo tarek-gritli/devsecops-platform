@@ -27,3 +27,9 @@ variable "https_port" {
   type        = number
   default     = 8443
 }
+
+variable "api_port" {
+  description = "Host port for the Kubernetes API server"
+  type        = number
+  default     = 6550
+}
