@@ -8,7 +8,7 @@ API_PORT="${4:?api port is required}"
 HTTP_PORT="${5:?http port is required}"
 HTTPS_PORT="${6:?https port is required}"
 
-if k3d cluster get "${CLUSTER_NAME}" >/dev/null; then
+if k3d cluster get "${CLUSTER_NAME}" >/dev/null 2>&1; then
   echo "Cluster ${CLUSTER_NAME} already exists"
   exit 0
 fi
