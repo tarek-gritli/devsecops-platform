@@ -15,3 +15,7 @@ def test_metrics_exposes_prometheus_format():
     response = client.get("/metrics")
     assert response.status_code == 200
     assert "# HELP" in response.text
+
+def test_fail_returns_server_error():
+    response = client.get("/fail")
+    assert response.status_code == 500
