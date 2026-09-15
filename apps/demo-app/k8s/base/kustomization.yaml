@@ -4,3 +4,4 @@ resources:
   - deployment.yaml
   - service.yaml
   - servicemonitor.yaml
+  - dashboard-cm.yaml
