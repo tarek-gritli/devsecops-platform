@@ -1,3 +1,8 @@
 configs:
   params:
     server.insecure: true
+
+repoServer:
+  livenessProbe:
+    timeoutSeconds: 10
+    failureThreshold: 5
