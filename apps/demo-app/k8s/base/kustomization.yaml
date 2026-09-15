@@ -5,3 +5,4 @@ resources:
   - service.yaml
   - servicemonitor.yaml
   - dashboard-cm.yaml
+  - slo-alerts.yaml

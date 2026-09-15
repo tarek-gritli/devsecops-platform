@@ -1,0 +1,50 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: demo-app-slo
+  labels:
+    app: demo-app
+spec:
+  groups:
+    - name: demo-app-availability-slo
+      rules:
+        - alert: DemoAppErrorBudgetBurnFast
+          expr: |
+            (
+              sum(rate(http_requests_total{namespace="demo-app-dev", status=~"5.."}[5m]))
+              /
+              sum(rate(http_requests_total{namespace="demo-app-dev"}[5m]))
+            ) > (14.4 * 0.01)
+            and
+            (
+              sum(rate(http_requests_total{namespace="demo-app-dev", status=~"5.."}[1h]))
+              /
+              sum(rate(http_requests_total{namespace="demo-app-dev"}[1h]))
+            ) > (14.4 * 0.01)
+          for: 2m
+          labels:
+            severity: critical
+            slo: demo-app-availability
+          annotations:
+            summary: "demo-app is burning its 30d error budget fast (>2% consumed in 1h)"
+            description: "Error ratio exceeds a 14.4x burn rate against the 99% availability SLO over both the 5m and 1h windows."
+        - alert: DemoAppErrorBudgetBurnSlow
+          expr: |
+            (
+              sum(rate(http_requests_total{namespace="demo-app-dev", status=~"5.."}[30m]))
+              /
+              sum(rate(http_requests_total{namespace="demo-app-dev"}[30m]))
+            ) > (6 * 0.01)
+            and
+            (
+              sum(rate(http_requests_total{namespace="demo-app-dev", status=~"5.."}[6h]))
+              /
+              sum(rate(http_requests_total{namespace="demo-app-dev"}[6h]))
+            ) > (6 * 0.01)
+          for: 15m
+          labels:
+            severity: warning
+            slo: demo-app-availability
+          annotations:
+            summary: "demo-app is burning its 30d error budget slowly (>5% consumed in 6h)"
+            description: "Error ratio exceeds a 6x burn rate against the 99% availability SLO over both the 30m and 6h windows."
