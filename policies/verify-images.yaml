@@ -15,7 +15,7 @@ spec:
       verifyImages:
         - imageReferences:
             - "ghcr.io/tarek-gritli/demo-app*"
-          failureAction: Audit
+          failureAction: Enforce
           mutateDigest: false
           attestors:
             - entries:
