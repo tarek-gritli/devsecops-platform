@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-demo-app-signature
+spec:
+  webhookTimeoutSeconds: 30
+  background: false
+  rules:
+    - name: verify-demo-app-cosign-signature
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      verifyImages:
+        - imageReferences:
+            - "ghcr.io/tarek-gritli/demo-app*"
+          failureAction: Audit
+          attestors:
+            - entries:
+                - keyless:
+                    subject: "https://github.com/tarek-gritli/devsecops-platform/.github/workflows/ci.yaml@refs/heads/main"
+                    issuer: "https://token.actions.githubusercontent.com"
+                    rekor:
+                      url: https://rekor.sigstore.dev
