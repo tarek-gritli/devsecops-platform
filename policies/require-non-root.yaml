@@ -3,7 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: require-non-root-demo-app
 spec:
-  validationFailureAction: Audit
+  validationFailureAction: Enforce
   background: true
   rules:
     - name: run-as-non-root
