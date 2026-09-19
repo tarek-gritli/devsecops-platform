@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: demo-app
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`demo-app.local`)
+      kind: Rule
+      services:
+        - name: demo-app
+          port: 80
+  tls:
+    secretName: demo-app-tls
