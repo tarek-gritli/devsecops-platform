@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - "apps/demo-app/**"
+      - "!apps/demo-app/k8s/**"
       - ".github/workflows/ci.yaml"
   push:
     branches: [main]
     paths:
       - "apps/demo-app/**"
+      - "!apps/demo-app/k8s/**"
       - ".github/workflows/ci.yaml"
 
 permissions:
