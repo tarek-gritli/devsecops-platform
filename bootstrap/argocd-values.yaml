@@ -3,6 +3,7 @@ configs:
     server.insecure: true
   cm:
     url: https://argocd.local:8443
+    kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
     oidc.config: |
       name: Keycloak
       issuer: https://keycloak.local:8443/realms/devsecops-platform
