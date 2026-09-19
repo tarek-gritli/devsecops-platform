@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-registries-demo-app
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: validate-registries
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - demo-app-dev
+                - demo-app-prod
+      validate:
+        message: "Images must come from ghcr.io/tarek-gritli/*"
+        pattern:
+          spec:
+            containers:
+              - image: "ghcr.io/tarek-gritli/*"

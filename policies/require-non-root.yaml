@@ -1,0 +1,32 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-non-root-demo-app
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: run-as-non-root
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - demo-app-dev
+                - demo-app-prod
+      validate:
+        message: >
+          Running as root is not allowed. Either spec.securityContext.runAsNonRoot
+          must be true, or container-level runAsNonRoot fields must be set to true.
+        anyPattern:
+          - spec:
+              securityContext:
+                runAsNonRoot: "true"
+              containers:
+                - "=(securityContext)":
+                    "=(runAsNonRoot)": "true"
+          - spec:
+              containers:
+                - securityContext:
+                    runAsNonRoot: "true"
