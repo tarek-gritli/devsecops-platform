@@ -1,6 +1,6 @@
 # Demo: SLO Burn-Rate Alert Firing
 
-Negative control for Milestone 3 — proves the multi-window multi-burn-rate `PrometheusRule` (`policies/... ` → `apps/demo-app/k8s/base/slo-alerts.yaml`, alert `DemoAppErrorBudgetBurnFast`) actually fires under real error traffic, and recovers once traffic stops.
+Negative control proving the multi-window multi-burn-rate `PrometheusRule` (`apps/demo-app/k8s/base/slo-alerts.yaml`, alert `DemoAppErrorBudgetBurnFast`) actually fires under real error traffic, and recovers once traffic stops.
 
 ## Setup
 

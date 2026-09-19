@@ -39,4 +39,4 @@ $ curl --cacert bootstrap/local-ca.crt https://demo-app.local:8443/health
 {"status":"ok"}
 ```
 
-Same policy, same registry path, same namespace — the only difference is whether the image was actually produced and signed by this repo's own CI pipeline (Milestone 5). That's the entire trust boundary the policy enforces.
+Same policy, same registry path, same namespace — the only difference is whether the image was actually produced and signed by this repo's own CI pipeline. That's the entire trust boundary the policy enforces.

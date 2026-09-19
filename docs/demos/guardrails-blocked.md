@@ -1,6 +1,6 @@
 # Demo: Guardrail Policies Blocked at Admission
 
-The three Milestone 7 guardrails — non-root, resource requests/limits, registry allow-list — all in `failureAction: Enforce`, scoped to `demo-app-dev`/`demo-app-prod`. Two test pods isolate all three violations between them.
+The three guardrail policies — non-root, resource requests/limits, registry allow-list — all in `failureAction: Enforce`, scoped to `demo-app-dev`/`demo-app-prod`. Two test pods isolate all three violations between them.
 
 ## Test 1: no `securityContext`, no `resources` — trips two guardrails at once
 
@@ -43,4 +43,4 @@ Explicitly compliant `securityContext`/`resources` here — only `restrict-regis
 
 ## Contrast: `demo-app` itself, unaffected
 
-All three guardrails plus Milestone 6's signature policy are active simultaneously in this namespace — the real `demo-app` Deployment keeps running throughout both tests above, since it satisfies every one of them (non-root since Milestone 7's `Deployment` fix, resource limits since Milestone 2, correct signed registry path since Milestone 5).
+All three guardrails plus the signature-verification policy are active simultaneously in this namespace — the real `demo-app` Deployment keeps running throughout both tests above, since it satisfies every one of them (declared non-root, resource limits set, and a correctly signed image from the allowed registry).
