@@ -18,9 +18,15 @@ spec:
           - "--import-realm"
         extraEnv: |
           - name: KC_BOOTSTRAP_ADMIN_USERNAME
-            value: admin
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-admin-credentials
+                key: username
           - name: KC_BOOTSTRAP_ADMIN_PASSWORD
-            value: admin
+            valueFrom:
+              secretKeyRef:
+                name: keycloak-admin-credentials
+                key: password
           - name: KC_HOSTNAME
             value: https://keycloak.local:8443
         proxy:
