@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-realm
+  namespace: keycloak
+data:
+  realm.json: |
+    {
+      "realm": "devsecops-platform",
+      "enabled": true,
+      "groups": [
+        { "name": "argocd-admins" }
+      ],
+      "users": [
+        {
+          "username": "demo-user",
+          "email": "demo-user@example.com",
+          "emailVerified": true,
+          "enabled": true,
+          "groups": ["/argocd-admins"],
+          "credentials": [
+            { "type": "password", "value": "demo-password", "temporary": false }
+          ]
+        }
+      ],
+      "clients": [
+        {
+          "clientId": "argocd",
+          "enabled": true,
+          "publicClient": true,
+          "protocol": "openid-connect",
+          "standardFlowEnabled": true,
+          "directAccessGrantsEnabled": false,
+          "redirectUris": [
+            "https://argocd.local:8443/auth/callback",
+            "https://argocd.local:8443/pkce/verify",
+            "http://localhost:8085/auth/callback"
+          ],
+          "webOrigins": ["https://argocd.local:8443"],
+          "attributes": {
+            "pkce.code.challenge.method": "S256"
+          },
+          "protocolMappers": [
+            {
+              "name": "groups",
+              "protocol": "openid-connect",
+              "protocolMapper": "oidc-group-membership-mapper",
+              "consentRequired": false,
+              "config": {
+                "full.path": "false",
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "claim.name": "groups",
+                "userinfo.token.claim": "true"
+              }
+            }
+          ]
+        }
+      ]
+    }
