@@ -16,6 +16,7 @@ spec:
         - imageReferences:
             - "ghcr.io/tarek-gritli/demo-app*"
           failureAction: Audit
+          mutateDigest: false
           attestors:
             - entries:
                 - keyless:
