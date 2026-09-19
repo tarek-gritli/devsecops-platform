@@ -18,7 +18,7 @@ COPY . .
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked
 
-USER appuser
+USER 1000
 ENV PATH="/app/.venv/bin:${PATH}"
 EXPOSE 8000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
