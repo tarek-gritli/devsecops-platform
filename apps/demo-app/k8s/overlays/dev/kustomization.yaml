@@ -2,7 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: demo-app-dev
 resources:
-  - ../../base
+- ../../base
 replicas:
-  - name: demo-app
-    count: 1
+- count: 1
+  name: demo-app
+images:
+- digest: sha256:bbacbfef4989fe962891ae5a2585b4938af2fa13b8352a68714764fae1a6c60c
+  name: demo-app
+  newName: ghcr.io/tarek-gritli/demo-app
