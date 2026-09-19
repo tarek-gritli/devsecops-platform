@@ -7,6 +7,6 @@ replicas:
 - count: 1
   name: demo-app
 images:
-- digest: sha256:eeffa86f49ef5681c315b8fe6a6d600bda173c2787d589e38c462247fff5b976
+- digest: sha256:b30e97ac9dfed71a8efc651dcf4ee2ed1ba39536ecff4ca0ab18a64ca4bd668f
   name: demo-app
   newName: ghcr.io/tarek-gritli/demo-app
