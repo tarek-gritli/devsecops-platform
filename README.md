@@ -19,6 +19,10 @@ Screenshots/recordings of the negative controls (SLO alert firing, unsigned imag
 
 ## Trade-offs
 
+### Terraform: `local-exec` vs. a real provider
+
+No k3d Terraform provider was mature enough to trust (most active one: ~5.7k downloads, no 2026 release), so `terraform_data` + `local-exec` wraps the `k3d` CLI instead. Cost: no per-resource state, no drift detection, and a partial failure can look "applied" since the idempotency check only confirms the cluster exists, not that it's fully formed. A Docker provider would give real state without cloud spend, at the cost of reimplementing k3d's node/network/loadbalancer wiring by hand; a real cloud provider fixes it properly but breaks the zero-spend constraint. Neither trade made here — Terraform is used for what's convenient, not what it's built for.
+
 ### Kyverno vs. OPA/Gatekeeper
 
 Kyverno policies are plain Kubernetes YAML — no new language to learn, and `verifyImages` ships Cosign/Sigstore signature verification as a first-class, built-in feature. Gatekeeper uses Rego (OPA's own policy language), which is more expressive for genuinely complex logic and has a longer enterprise track record, but signature verification isn't built in — you'd hand-write a Rego constraint template for it. This project's headline demo *is* Cosign verification; Kyverno making that a YAML field instead of custom Rego was the deciding factor.
