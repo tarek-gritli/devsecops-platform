@@ -109,9 +109,14 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
 
-          curl -fsSLo /tmp/kustomize.tar.gz \
-            https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.8.1/kustomize_v5.8.1_linux_amd64.tar.gz
-          tar -xzf /tmp/kustomize.tar.gz -C /tmp
+          KUSTOMIZE_RELEASE="kustomize%2Fv5.8.1"
+          KUSTOMIZE_TARBALL="kustomize_v5.8.1_linux_amd64.tar.gz"
+          curl -fsSLo "/tmp/${KUSTOMIZE_TARBALL}" \
+            "https://github.com/kubernetes-sigs/kustomize/releases/download/${KUSTOMIZE_RELEASE}/${KUSTOMIZE_TARBALL}"
+          curl -fsSLo /tmp/kustomize_checksums.txt \
+            "https://github.com/kubernetes-sigs/kustomize/releases/download/${KUSTOMIZE_RELEASE}/checksums.txt"
+          ( cd /tmp && grep " ${KUSTOMIZE_TARBALL}\$" kustomize_checksums.txt | sha256sum -c - )
+          tar -xzf "/tmp/${KUSTOMIZE_TARBALL}" -C /tmp
           chmod +x /tmp/kustomize
 
           cd apps/demo-app/k8s/overlays/dev
